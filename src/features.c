@@ -12,7 +12,7 @@
  */
 
 void helloWorld() {
-    printf("Delarbol !");
+    printf("Delarbol mets toi au boulot !");
 }
 
 void dimension(char* filename){
@@ -29,3 +29,6 @@ void dimension(char* filename){
 }
 
 
+void first_pixel (char *source_path){
+
+}
