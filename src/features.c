@@ -12,5 +12,20 @@
  */
 
 void helloWorld() {
-    printf("Hello World !");
+    printf("Delarbol !");
 }
+
+void dimension(char* filename){
+ 
+    unsigned char* data;
+    int width, height, channel_count;
+    if (read_image_data(filename, &data, &width, &height, &channel_count) ==0){
+        printf("Erreur avec le fichier : %s\n",filename);
+    }
+    else{
+        printf("dimension : %d, %d\n",width,height);
+        free_image_data(data);
+    }
+}
+
+
