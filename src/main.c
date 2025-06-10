@@ -36,6 +36,7 @@ int main(int argc, char **argv) {
    
     dimension(configuration.filenames[0]);
   }
+
   /*
    * TO COMPLETE
    */
