@@ -15,3 +15,5 @@ void tenth_pixel (char *source_path);
 
 
 /*Test rebase 2*/
+/*conflit à résoudre*/
+/*test rebase 1*/
