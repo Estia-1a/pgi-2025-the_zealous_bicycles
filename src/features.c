@@ -53,3 +53,15 @@ void tenth_pixel(char *source_path) {
         free_image_data(data);
     }
 }
+
+void second_line(char *source_path) {
+    unsigned char* data;
+    int width, height, channel_count;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else {
+        printf("%d, %d, %d\n", data[width*3], data[(width*3)+1], data[(width*3)+2]);
+        free_image_data(data);
+    }
+}
