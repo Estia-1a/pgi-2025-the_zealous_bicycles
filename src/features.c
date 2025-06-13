@@ -53,3 +53,19 @@ void tenth_pixel(char *source_path) {
         free_image_data(data);
     }
 }
+
+void print_pixel( char *filename, int x, int y ){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    if (read_image_data(filename, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", filename);
+    }
+    else {
+      pixelRGB *pixel = get_pixel( &data, width, height, 
+        channel_count, x, y );
+
+        printf("%d, %d, %d\n", data[(y*width + x)*3], data[(y*width + x)*3 + 1], data[(y*width + x)*3 + 2]);
+    }
+}
+
