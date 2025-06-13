@@ -5,7 +5,9 @@
 void helloWorld();
 
 void dimension (char *source_path);
+
 void first_pixel (char *source_path);
+
 void tenth_pixel (char *source_path);
 
 
@@ -17,3 +19,7 @@ void tenth_pixel (char *source_path);
 /*Test rebase 2*/
 /*conflit à résoudre*/
 /*test rebase 1*/
+
+
+
+/*test après rebase*/
