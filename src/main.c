@@ -42,7 +42,10 @@ else if ( strncmp( configuration.command, "first_pixel", 11 ) == 0 ) {
     first_pixel(configuration.filenames[0]);
 }
 
-
+else if ( strncmp( configuration.command, "tenth_pixel", 11 ) == 0 ) {
+  /* first_pixel() function is defined in feature.h and implemented in feature.c */
+  tenth_pixel(configuration.filenames[0]);
+}
 
 
   /*
