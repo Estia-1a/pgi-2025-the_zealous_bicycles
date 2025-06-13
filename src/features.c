@@ -12,7 +12,7 @@
  */
 
 void helloWorld() {
-    printf("Delarbol Pierre alexandre daguebert!");
+    printf("Delarbol !");
 }
 
 void dimension(char* filename){
@@ -29,4 +29,3 @@ void dimension(char* filename){
 }
 
 
-/*delarbol*/
