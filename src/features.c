@@ -12,7 +12,7 @@
  */
 
 void helloWorld() {
-    printf("Delarbol !");
+    printf("Delarbol mets toi au boulot !");
 }
 
 void dimension(char* filename){
@@ -29,3 +29,15 @@ void dimension(char* filename){
 }
 
 
+void first_pixel (char *source_path){
+    unsigned char* data;
+    int width, height, channel_count;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) ==0){
+        printf("Erreur avec le fichier : %s\n",source_path);
+    }
+    else{
+        printf("%d, %d, %d\n",data[0], data[1], data[2]);
+        free_image_data(data);
+    }
+
+}
