@@ -10,4 +10,5 @@ void first_pixel (char *source_path);
 
 
 /*merge test*/
+/*merge test 2*/
 #endif
