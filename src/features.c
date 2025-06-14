@@ -62,10 +62,17 @@ void print_pixel( char *filename, int x, int y ){
         printf("Erreur avec le fichier : %s\n", filename);
     }
     else {
-      pixelRGB *pixel = get_pixel( &data, width, height, 
+      pixelRGB *pixel = get_pixel(data, width, height, 
         channel_count, x, y );
 
-        printf("%d, %d, %d\n", data[(y*width + x)*3], data[(y*width + x)*3 + 1], data[(y*width + x)*3 + 2]);
+        if (pixel != NULL){
+            printf("%d, %d, %d\n", data[(y*width + x)*3], data[(y*width + x)*3 + 1], data[(y*width + x)*3 + 2]);
+            
+            free_image_data(data);
+
+
+        }
+        
     }
 }
 
