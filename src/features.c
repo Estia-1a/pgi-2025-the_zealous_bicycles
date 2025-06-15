@@ -126,3 +126,39 @@ void max_pixel(char *source_path){
 
     
 }
+
+void min_pixel(char *source_path){
+    unsigned char* data;
+    int width, height, channel_count;
+    int somme = 0, x_min = 0, y_min = 0,  somme_min = 765;
+    int x, y;
+
+     if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+
+    else {
+       
+        for(y=0; y<height; y++){
+            for(x=0; x<width; x++){
+            
+                 pixelRGB *pixel = get_pixel(data, width, height, 
+                 channel_count, x, y );
+            
+                 somme = pixel->R + pixel->G + pixel->B;
+
+                 if(somme < somme_min){
+                    somme_min = somme;
+                    x_min = x;
+                    y_min = y;
+                }
+            }
+        }
+         pixelRGB *pixel_min = get_pixel(data, width, height, 
+         channel_count, x_min, y_min );
+        
+        printf("(%d, %d) : %d, %d, %d\n", x_min, y_min, pixel_min->R, pixel_min->G, pixel_min->B);
+    }
+
+    free_image_data(data);
+}
