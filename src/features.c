@@ -122,7 +122,6 @@ void max_pixel(char *source_path){
          channel_count, x_max, y_max );
         
         printf("(%d, %d) : %d, %d, %d\n", x_max, y_max, pixel_max->R, pixel_max->G, pixel_max->B);
-        printf("%d\n",somme_max);
     }
 
     
