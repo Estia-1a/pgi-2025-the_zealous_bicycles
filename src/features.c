@@ -108,13 +108,19 @@ void max_pixel(char *source_path){
             
                  pixelRGB *pixel = get_pixel(data, width, height, 
                  channel_count, x, y );
-            
-                 somme = pixel->R + pixel->G + pixel->B;
+                
+                if(pixel!= NULL){
+                  somme = pixel->R + pixel->G + pixel->B;
 
                  if(somme > somme_max){
                     somme_max = somme;
                     x_max = x;
                     y_max = y;
+                 }
+                }
+
+                else{
+                    printf("ERREUR");
                 }
             }
         }
@@ -123,6 +129,124 @@ void max_pixel(char *source_path){
         
         printf("(%d, %d) : %d, %d, %d\n", x_max, y_max, pixel_max->R, pixel_max->G, pixel_max->B);
     }
-
-    
 }
+
+
+
+
+void max_component(char *source_path, char component){
+
+    unsigned char* data;
+    int width, height, channel_count;
+
+    int x_max = 0, y_max = 0, valeur_max = 0, valeur = 0;
+    int x, y;
+
+     if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+
+    else {
+       
+        for(y=0; y<height; y++){
+            for(x=0; x<width; x++){
+                
+                
+                 pixelRGB *pixel = get_pixel(data, width, height, 
+                 channel_count, x, y );
+
+                 if(pixel != NULL){
+            
+                    if(component == 'R'){
+                        valeur = pixel->R;
+                    }
+
+                    else if(component == 'G'){
+                        valeur = pixel->G;
+                    }
+
+                    else if(component == 'B'){
+                        valeur = pixel->B;
+                    }
+
+                    else{
+                        printf("Entrez R, G ou B svp\n");
+                        return;
+                    }
+                }
+                else{
+                    printf("ERREUR\n");
+                }
+
+                if(valeur > valeur_max){
+                    valeur_max = valeur;
+                    x_max = x;
+                    y_max = y;
+                }
+            }
+        }
+         
+        printf("(%d, %d) : %d\n", x_max, y_max, valeur_max);
+        free_image_data(data);
+    }
+}
+
+void min_component(char *source_path, char component){
+
+    unsigned char* data;
+    int width, height, channel_count;
+
+    int x_min = 0, y_min = 0, valeur_min = 256, valeur = 0;
+    int x, y;
+
+     if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+
+    else {
+       
+        for(y=0; y<height; y++){
+            for(x=0; x<width; x++){
+                
+                
+                 pixelRGB *pixel = get_pixel(data, width, height, 
+                 channel_count, x, y );
+
+                 if(pixel != NULL){
+            
+                    if(component == 'R'){
+                        valeur = pixel->R;
+                    }
+
+                    else if(component == 'G'){
+                        valeur = pixel->G;
+                    }
+
+                    else if(component == 'B'){
+                        valeur = pixel->B;
+                    }
+
+                    else{
+                        printf("Entrez R, G ou B svp\n");
+                        return;
+                    }
+                }
+                else{
+                    printf("ERREUR\n");
+                }
+
+                if(valeur < valeur_min){
+                    valeur_min = valeur;
+                    x_min = x;
+                    y_min = y;
+                }
+            }
+        }
+         
+        printf("(%d, %d) : %d\n", x_min, y_min, valeur_min);
+        free_image_data(data);
+    }
+}
+
+
+

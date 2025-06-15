@@ -65,6 +65,22 @@ else if ( strncmp( configuration.command, "max_pixel", 9 ) == 0 ) {
 }
 
 
+else if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
+  /* max_component() function is defined in feature.h and implemented in feature.c */
+  char component;
+  sscanf(configuration.arguments[0], "%s", &component);
+  max_component(configuration.filenames[0], component);
+}
+
+
+else if ( strncmp( configuration.command, "min_component", 13 ) == 0 ) {
+  /* min_component() function is defined in feature.h and implemented in feature.c */
+  char component;
+  sscanf(configuration.arguments[0], "%s", &component);
+  min_component(configuration.filenames[0], component);
+}
+
+
 
   /*
    * TO COMPLETE
