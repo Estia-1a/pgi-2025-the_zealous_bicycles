@@ -54,6 +54,20 @@ void tenth_pixel(char *source_path) {
     }
 }
 
+
+void second_line(char *source_path) {
+    unsigned char* data;
+    int width, height, channel_count;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else {
+        printf("%d, %d, %d\n", data[width*3], data[(width*3)+1], data[(width*3)+2]);
+        free_image_data(data);
+    }
+}
+
+
 void print_pixel( char *filename, int x, int y ){
 
     unsigned char* data;
@@ -66,7 +80,7 @@ void print_pixel( char *filename, int x, int y ){
         channel_count, x, y );
 
         if (pixel != NULL){
-            printf("%d, %d, %d\n", data[(y*width + x)*3], data[(y*width + x)*3 + 1], data[(y*width + x)*3 + 2]);
+            printf("%d, %d, %d\n", pixel->R, pixel->G, pixel->B);
             
             free_image_data(data);
 
@@ -77,14 +91,39 @@ void print_pixel( char *filename, int x, int y ){
 }
 
 
-void second_line(char *source_path) {
+void max_pixel(char *source_path){
     unsigned char* data;
     int width, height, channel_count;
-    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+    int somme = 0, x_max = 0, y_max = 0,  somme_max = 0;
+    int x, y;
+
+     if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
         printf("Erreur avec le fichier : %s\n", source_path);
     }
+
     else {
-        printf("%d, %d, %d\n", data[width*3], data[(width*3)+1], data[(width*3)+2]);
-        free_image_data(data);
+       
+        for(y=0; y<height; y++){
+            for(x=0; x<width; x++){
+            
+                 pixelRGB *pixel = get_pixel(data, width, height, 
+                 channel_count, x, y );
+            
+                 somme = pixel->R + pixel->G + pixel->B;
+
+                 if(somme > somme_max){
+                    somme_max = somme;
+                    x_max = x;
+                    y_max = y;
+                }
+            }
+        }
+         pixelRGB *pixel_max = get_pixel(data, width, height, 
+         channel_count, x_max, y_max );
+        
+        printf("(%d, %d) : %d, %d, %d\n", x_max, y_max, pixel_max->R, pixel_max->G, pixel_max->B);
+        printf("%d\n",somme_max);
     }
+
+    
 }
