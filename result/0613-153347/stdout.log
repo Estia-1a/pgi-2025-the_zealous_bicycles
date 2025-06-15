@@ -1,0 +1,6 @@
+[ 20%] Building C object CMakeFiles/freud.dir/src/argsparse.c.o
+[ 40%] Building C object CMakeFiles/freud.dir/src/main.c.o
+[ 60%] Building C object CMakeFiles/freud.dir/src/utils.c.o
+[ 80%] Building C object CMakeFiles/freud.dir/src/features.c.o
+[100%] Linking C executable freud
+[100%] Built target freud
