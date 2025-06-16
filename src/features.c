@@ -417,3 +417,46 @@ void color_gray(char *source_path){
     free_image_data(data);
 }
 
+
+
+void color_invert(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    unsigned char old_R, old_G, old_B, new_R, new_G, new_B;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+            int i,j;
+            for(j=0; j<height; j++){
+                for(i=0; i<width; i++){
+
+                    pixelRGB *pixel = get_pixel(data, width, height, 
+                    channel_count, i, j );
+
+                    old_R = pixel->R;
+                    old_G = pixel->G;
+                    old_B = pixel->B;
+
+                    new_R = 255 - old_R;
+                    new_G = 255 - old_G;
+                    new_B = 255 - old_B;
+
+                    pixel->R = new_R;
+                    pixel->G = new_G;
+                    pixel->B = new_B;
+                    
+                }
+            }
+        
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+        
+    free_image_data(data);
+}
+
