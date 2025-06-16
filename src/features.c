@@ -460,3 +460,39 @@ void color_invert(char *source_path){
     free_image_data(data);
 }
 
+
+
+void color_gray_luminance(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    unsigned char value;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+            int i,j;
+            for(j=0; j<height; j++){
+                for(i=0; i<width; i++){
+
+                    pixelRGB *pixel = get_pixel(data, width, height, 
+                    channel_count, i, j );
+                    
+                    value = 0.21*pixel->R + 0.72*pixel->G + 0.07*pixel->B ;
+
+                    pixel->R = value;
+                    pixel->G = value;
+                    pixel->B = value;
+                    
+                }
+            }
+        
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+        
+    free_image_data(data);
+}
