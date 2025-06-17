@@ -1,0 +1,16 @@
+Max_pixel : (528, 721) : 255, 254, 255
+
+Min_pixel(35, 1337) : 14, 0, 0
+
+Max_component R : (528, 721) : 255
+
+Max_component G : (528, 721) : 254
+
+Max_component B : (528, 721) : 255
+
+Min_component R : (1098, 897) : 11
+
+Min_component G : (35, 1337) : 0
+
+Min_component B : (1078, 956) : 0
+

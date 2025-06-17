@@ -282,6 +282,256 @@ void min_component(char *source_path, char component){
     }
 }
 
+void stat_report(char *source_path, char component) {
+
+    unsigned char*data;
+    int width, height, channel_count;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+
+    FILE *file = fopen("stat_report.txt", "w");
+    if (file == NULL) {
+        printf("Erreur dans la création\n");
+        free_image_data(data);
+        return;
+    }
+
+    // Partie 1
+    int somme = 0, x_max = 0, y_max = 0,  somme_max = 0;
+    int x, y;
+    /*pixelRGB *pixel;*/
+
+    for(y=0; y<height; y++){
+        for(x=0; x<width; x++){
+        
+             pixelRGB *pixel = get_pixel(data, width, height, 
+             channel_count, x, y );
+            
+            if(pixel!= NULL){
+              somme = pixel->R + pixel->G + pixel->B;
+
+             if(somme > somme_max){
+                somme_max = somme;
+                x_max = x;
+                y_max = y;
+             }
+            }
+
+            else{
+                printf("ERREUR");
+            }
+        }
+    }
+     pixelRGB *pixel_max = get_pixel(data, width, height, 
+     channel_count, x_max, y_max );
+    
+    fprintf(file, "Max_pixel : (%d, %d) : %d, %d, %d\n\n", x_max, y_max, pixel_max->R, pixel_max->G, pixel_max->B);
+    
+    //PArtie 2
+    int x_min = 0, y_min = 0,  somme_min = 765;
+
+    for(y=0; y<height; y++){
+        for(x=0; x<width; x++){
+        
+             pixelRGB *pixel = get_pixel(data, width, height, 
+             channel_count, x, y );
+        
+             somme = pixel->R + pixel->G + pixel->B;
+
+             if(somme < somme_min){
+                somme_min = somme;
+                x_min = x;
+                y_min = y;
+            }
+        }
+    }
+     pixelRGB *pixel_min = get_pixel(data, width, height, 
+     channel_count, x_min, y_min );
+    
+    fprintf(file, "Min_pixel(%d, %d) : %d, %d, %d\n\n", x_min, y_min, pixel_min->R, pixel_min->G, pixel_min->B);
+
+
+    
+//Partie 3 pour le component R
+    int x_max_R = 0, y_max_R = 0, valeur_max_R = 0;
+
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else {
+        for(y = 0; y < height; y++){
+            for(x = 0; x < width; x++){
+                
+                pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
+
+                if(pixel != NULL){
+                    if(pixel->R > valeur_max_R){
+                        valeur_max_R = pixel->R;
+                        x_max_R = x;
+                        y_max_R = y;
+                    }
+                }
+                else{
+                    printf("Erreur (%d, %d)\n", x, y);
+                }
+            }
+        }
+        
+        fprintf(file, "Max_component R : (%d, %d) : %d\n\n", x_max_R, y_max_R, valeur_max_R);        
+        free_image_data(data);
+    }
+
+    //Partie 4 Pour le max component G
+
+    int x_max_G = 0, y_max_G = 0, valeur_max_G = 0;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else {
+        for(y = 0; y < height; y++){
+            for(x = 0; x < width; x++){
+                
+                pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
+
+                if(pixel != NULL){
+                    if(pixel->G > valeur_max_G){
+                        valeur_max_G = pixel->G;
+                        x_max_G = x;
+                        y_max_G = y;
+                    }
+                }
+                else{
+                    printf("Erreur (%d, %d)\n", x, y);
+                }
+            }
+        }        
+        fprintf(file, "Max_component G : (%d, %d) : %d\n\n", x_max_G, y_max_G, valeur_max_G);        
+        free_image_data(data);
+    }
+
+    //Partie 5 pour le max component B
+
+    int x_max_B = 0, y_max_B = 0, valeur_max_B = 0;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else {
+        for(y = 0; y < height; y++){
+            for(x = 0; x < width; x++){
+                
+                pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
+
+                if(pixel != NULL){
+                    if(pixel->B > valeur_max_B){
+                        valeur_max_B = pixel->B;
+                        x_max_B = x;
+                        y_max_B = y;
+                    }
+                }
+                else{
+                    printf("Erreur (%d, %d)\n", x, y);
+                }
+            }
+        }        
+        fprintf(file, "Max_component B : (%d, %d) : %d\n\n", x_max_B, y_max_B, valeur_max_B);        
+        free_image_data(data);
+    }
+
+    //Partie 6 pour me min component R
+    int x_min_R = 0, y_min_R = 0, valeur_min_R = 256;
+
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else {
+        for(y = 0; y < height; y++){
+            for(x = 0; x < width; x++){
+                
+                pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
+
+                if(pixel != NULL){
+                    if(pixel->R < valeur_min_R){
+                        valeur_min_R = pixel->R;
+                        x_min_R = x;
+                        y_min_R = y;
+                    }
+                }
+                else{
+                    printf("Erreur (%d, %d)\n", x, y);
+                }
+            }
+        }
+        
+        fprintf(file, "Min_component R : (%d, %d) : %d\n\n", x_min_R, y_min_R, valeur_min_R);        
+        free_image_data(data);
+    }
+
+    //Partie 7 pour me min component G
+    int x_min_G = 0, y_min_G = 0, valeur_min_G = 256;
+
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else {
+        for(y = 0; y < height; y++){
+            for(x = 0; x < width; x++){
+                
+                pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
+
+                if(pixel != NULL){
+                    if(pixel->G < valeur_min_G){
+                        valeur_min_G = pixel->G;
+                        x_min_G = x;
+                        y_min_G = y;
+                    }
+                }
+                else{
+                    printf("Erreur (%d, %d)\n", x, y);
+                }
+            }
+        }
+        
+        fprintf(file, "Min_component G : (%d, %d) : %d\n\n", x_min_G, y_min_G, valeur_min_G);        
+        free_image_data(data);
+    }
+
+    //Partie 8 pour me min component B
+    int x_min_B = 0, y_min_B = 0, valeur_min_B = 256;
+
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else {
+        for(y = 0; y < height; y++){
+            for(x = 0; x < width; x++){
+                
+                pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
+
+                if(pixel != NULL){
+                    if(pixel->B < valeur_min_B){
+                        valeur_min_B = pixel->B;
+                        x_min_B = x;
+                        y_min_B = y;
+                    }
+                }
+                else{
+                    printf("Erreur (%d, %d)\n", x, y);
+                }
+            }
+        }
+        
+        fprintf(file, "Min_component B : (%d, %d) : %d\n\n", x_min_B, y_min_B, valeur_min_B);        
+        free_image_data(data);
+    }
+}    
 
 
 
