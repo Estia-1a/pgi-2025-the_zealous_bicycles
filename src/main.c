@@ -126,6 +126,14 @@ else if ( strcmp( configuration.command, "color_gray_luminance") == 0 ) {
   color_gray_luminance(configuration.filenames[0]);
 }
 
+
+
+else if ( strncmp( configuration.command, "mirror_horizontal", 17) == 0 ) {
+  /* mirror_horizontal() function is defined in feature.h and implemented in feature.c */
+ 
+  mirror_horizontal(configuration.filenames[0]);
+}
+
   /*
    * TO COMPLETE
    */

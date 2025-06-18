@@ -746,3 +746,56 @@ void color_gray_luminance(char *source_path){
         
     free_image_data(data);
 }
+
+
+
+
+
+void mirror_horizontal(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    int x,y, x_droite;
+    unsigned char R, G, B;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+
+            for(y=0; y<height; y++){
+                for(x=0; x<width/2; x++){
+
+                    pixelRGB *pixel_gauche = get_pixel(data, width, height,
+                    channel_count, x, y );
+
+                    R = pixel_gauche->R;
+                    G = pixel_gauche->G;
+                    B = pixel_gauche->B;
+                   
+                    x_droite = width - 1 - x;
+
+                    pixelRGB *pixel_droite = get_pixel(data, width, height,
+                    channel_count, x_droite, y );
+
+                    pixel_gauche->R = pixel_droite->R;
+                    pixel_gauche->G = pixel_droite->G;
+                    pixel_gauche->B = pixel_droite->B;
+
+                    pixel_droite->R = R;
+                    pixel_droite->G = G;
+                    pixel_droite->B = B;
+
+                                     
+                }
+            }
+       
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+       
+    free_image_data(data);
+
+
+}
