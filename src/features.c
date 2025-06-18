@@ -806,7 +806,7 @@ void mirror_vertical(char *source_path){
 
     unsigned char* data;
     int width, height, channel_count;
-    int x,y, y_haut;
+    int x,y, y_bas;
     unsigned char R, G, B;
     if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
         printf("Erreur avec le fichier : %s\n", source_path);
@@ -823,10 +823,10 @@ void mirror_vertical(char *source_path){
                     G = pixel_haut->G;
                     B = pixel_haut->B;
                    
-                    y_haut = height - 1 - y;
+                    y_bas = height - 1 - y;
 
                     pixelRGB *pixel_bas = get_pixel(data, width, height,
-                    channel_count, x, y_haut);
+                    channel_count, x, y_bas);
 
                     pixel_haut->R = pixel_bas->R;
                     pixel_haut->G = pixel_bas->G;
@@ -841,6 +841,85 @@ void mirror_vertical(char *source_path){
             }
        
     }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+       
+    free_image_data(data);
+
+
+}
+
+
+
+void mirror_total(char *source_path){
+
+   
+
+    unsigned char* data;
+    int width, height, channel_count;
+    int x,y, x_droite, y_bas;
+    unsigned char R1, G1, B1, R2, G2, B2;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+        
+            for(y=0; y<height; y++){
+                for(x=0; x<width/2; x++){
+
+                      pixelRGB *pixel_gauche = get_pixel(data, width, height,
+                    channel_count, x, y );
+
+                    R1 = pixel_gauche->R;
+                    G1 = pixel_gauche->G;
+                    B1 = pixel_gauche->B;
+                   
+                    x_droite = width - 1 - x;
+
+                    pixelRGB *pixel_droite = get_pixel(data, width, height,
+                    channel_count, x_droite, y );
+
+                    pixel_gauche->R = pixel_droite->R;
+                    pixel_gauche->G = pixel_droite->G;
+                    pixel_gauche->B = pixel_droite->B;
+
+                    pixel_droite->R = R1;
+                    pixel_droite->G = G1;
+                    pixel_droite->B = B1;
+                }
+            }
+
+            for(y=0; y<height/2; y++){
+                for(x=0; x<width; x++){
+
+                    pixelRGB *pixel_haut = get_pixel(data, width, height,
+                    channel_count, x, y );
+
+                    R2 = pixel_haut->R;
+                    G2 = pixel_haut->G;
+                    B2 = pixel_haut->B;
+                   
+                    y_bas = height - 1 - y;
+
+                    pixelRGB *pixel_bas = get_pixel(data, width, height,
+                    channel_count, x, y_bas);
+
+                    pixel_haut->R = pixel_bas->R;
+                    pixel_haut->G = pixel_bas->G;
+                    pixel_haut->B = pixel_bas->B;
+
+                    pixel_bas->R = R2;
+                    pixel_bas->G = G2;
+                    pixel_bas->B = B2;
+
+                                     
+                }
+            }
+       
+       
+   }
 
     if (write_image_data("image_out.bmp", data, width, height) == 0) {
             printf("Erreur 2 avec le fichier : %s\n", source_path);
