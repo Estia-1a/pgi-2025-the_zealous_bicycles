@@ -1,0 +1,27 @@
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c: In function ‘rotate_cw’:
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:765:39: warning: implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+  765 |         unsigned char* rotated_data = malloc(new_width * new_height * 3);
+      |                                       ^~~~~~
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:6:1: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+    5 | #include "utils.h"
+  +++ |+#include <stdlib.h>
+    6 | 
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:765:39: warning: incompatible implicit declaration of built-in function ‘malloc’ [-Wbuiltin-declaration-mismatch]
+  765 |         unsigned char* rotated_data = malloc(new_width * new_height * 3);
+      |                                       ^~~~~~
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:765:39: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:788:9: warning: implicit declaration of function ‘free’ [-Wimplicit-function-declaration]
+  788 |         free(rotated_data);
+      |         ^~~~
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:788:9: note: include ‘<stdlib.h>’ or provide a declaration of ‘free’
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:788:9: warning: incompatible implicit declaration of built-in function ‘free’ [-Wbuiltin-declaration-mismatch]
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:788:9: note: include ‘<stdlib.h>’ or provide a declaration of ‘free’
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c: In function ‘rotate_acw’:
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:810:39: warning: incompatible implicit declaration of built-in function ‘malloc’ [-Wbuiltin-declaration-mismatch]
+  810 |         unsigned char* rotated_data = malloc(new_width * new_height * 3);
+      |                                       ^~~~~~
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:810:39: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:833:9: warning: incompatible implicit declaration of built-in function ‘free’ [-Wbuiltin-declaration-mismatch]
+  833 |         free(rotated_data);
+      |         ^~~~
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/features.c:833:9: note: include ‘<stdlib.h>’ or provide a declaration of ‘free’
