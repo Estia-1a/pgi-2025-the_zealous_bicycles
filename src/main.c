@@ -134,6 +134,12 @@ else if ( strncmp( configuration.command, "mirror_horizontal", 17) == 0 ) {
   mirror_horizontal(configuration.filenames[0]);
 }
 
+else if ( strncmp( configuration.command, "mirror_vertical", 15) == 0 ) {
+  /* mirror_vertical() function is defined in feature.h and implemented in feature.c */
+ 
+  mirror_vertical(configuration.filenames[0]);
+}
+
   /*
    * TO COMPLETE
    */

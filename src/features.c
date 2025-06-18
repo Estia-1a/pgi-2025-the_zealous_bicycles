@@ -799,3 +799,54 @@ void mirror_horizontal(char *source_path){
 
 
 }
+
+
+
+void mirror_vertical(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    int x,y, y_haut;
+    unsigned char R, G, B;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+
+            for(y=0; y<height/2; y++){
+                for(x=0; x<width; x++){
+
+                    pixelRGB *pixel_haut = get_pixel(data, width, height,
+                    channel_count, x, y );
+
+                    R = pixel_haut->R;
+                    G = pixel_haut->G;
+                    B = pixel_haut->B;
+                   
+                    y_haut = height - 1 - y;
+
+                    pixelRGB *pixel_bas = get_pixel(data, width, height,
+                    channel_count, x, y_haut);
+
+                    pixel_haut->R = pixel_bas->R;
+                    pixel_haut->G = pixel_bas->G;
+                    pixel_haut->B = pixel_bas->B;
+
+                    pixel_bas->R = R;
+                    pixel_bas->G = G;
+                    pixel_bas->B = B;
+
+                                     
+                }
+            }
+       
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+       
+    free_image_data(data);
+
+
+}
