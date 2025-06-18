@@ -84,7 +84,7 @@ else if ( strncmp( configuration.command, "min_component", 13 ) == 0 ) {
   min_component(configuration.filenames[0], component);
 }
 else if ( strncmp( configuration.command, "stat_report", 11 ) == 0 ) {
-  /* min_component() function is defined in feature.h and implemented in feature.c */
+  /* stat_report() function is defined in feature.h and implemented in feature.c */
   char component;
   sscanf(configuration.arguments[0], "%s", &component);
   stat_report(configuration.filenames[0], component);
@@ -125,6 +125,19 @@ else if ( strcmp( configuration.command, "color_gray_luminance") == 0 ) {
   
   color_gray_luminance(configuration.filenames[0]);
 }
+
+else if ( strcmp( configuration.command, "rotate_cw") == 0 ) {
+  /* rotate_cw() function is defined in feature.h and implemented in feature.c */
+  
+  rotate_cw(configuration.filenames[0]);
+}
+
+else if ( strcmp( configuration.command, "rotate_acw") == 0 ) {
+  /* rotate_acw() function is defined in feature.h and implemented in feature.c */
+  
+  rotate_acw(configuration.filenames[0]);
+}
+
 
   /*
    * TO COMPLETE
