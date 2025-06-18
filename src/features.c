@@ -23,7 +23,7 @@ void dimension(char* filename){
         printf("Erreur avec le fichier : %s\n",filename);
     }
     else{
-        printf("dimension : %d, %d\n",width,height);
+        printf("dimension: %d, %d\n",width,height);
         free_image_data(data);
     }
 }
@@ -36,7 +36,7 @@ void first_pixel (char *source_path){
         printf("Erreur avec le fichier : %s\n",source_path);
     }
     else{
-        printf("%d, %d, %d\n",data[0], data[1], data[2]);
+        printf("first_pixel: %d, %d, %d\n",data[0], data[1], data[2]);
         free_image_data(data);
     }
 
@@ -49,7 +49,7 @@ void tenth_pixel(char *source_path) {
         printf("Erreur avec le fichier : %s\n", source_path);
     }
     else {
-        printf("%d, %d, %d\n", data[27], data[28], data[29]);
+        printf("tenth_pixel: %d, %d, %d\n", data[27], data[28], data[29]);
         free_image_data(data);
     }
 }
@@ -62,7 +62,7 @@ void second_line(char *source_path) {
         printf("Erreur avec le fichier : %s\n", source_path);
     }
     else {
-        printf("%d, %d, %d\n", data[width*3], data[(width*3)+1], data[(width*3)+2]);
+        printf("second_line: %d, %d, %d\n", data[width*3], data[(width*3)+1], data[(width*3)+2]);
         free_image_data(data);
     }
 }
@@ -80,7 +80,7 @@ void print_pixel( char *filename, int x, int y ){
         channel_count, x, y );
 
         if (pixel != NULL){
-            printf("%d, %d, %d\n", pixel->R, pixel->G, pixel->B);
+            printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, pixel->R, pixel->G, pixel->B);
             
             free_image_data(data);
 
@@ -127,7 +127,7 @@ void max_pixel(char *source_path){
          pixelRGB *pixel_max = get_pixel(data, width, height, 
          channel_count, x_max, y_max );
         
-        printf("(%d, %d) : %d, %d, %d\n", x_max, y_max, pixel_max->R, pixel_max->G, pixel_max->B);
+        printf("max_pixel (%d, %d): %d, %d, %d\n", x_max, y_max, pixel_max->R, pixel_max->G, pixel_max->B);
     }
 }
 
@@ -161,7 +161,7 @@ void min_pixel(char *source_path){
          pixelRGB *pixel_min = get_pixel(data, width, height, 
          channel_count, x_min, y_min );
         
-        printf("(%d, %d) : %d, %d, %d\n", x_min, y_min, pixel_min->R, pixel_min->G, pixel_min->B);
+        printf("min_pixel (%d, %d): %d, %d, %d\n", x_min, y_min, pixel_min->R, pixel_min->G, pixel_min->B);
     }
 
     free_image_data(data);
@@ -220,7 +220,7 @@ void max_component(char *source_path, char component){
             }
         }
          
-        printf("(%d, %d) : %d\n", x_max, y_max, valeur_max);
+        printf("max_component %c (%d, %d): %d\n", component, x_max, y_max, valeur_max);
         free_image_data(data);
     }
 }
@@ -277,7 +277,7 @@ void min_component(char *source_path, char component){
             }
         }
          
-        printf("(%d, %d) : %d\n", x_min, y_min, valeur_min);
+        printf("min_component %c (%d, %d): %d\n", component, x_min, y_min, valeur_min);
         free_image_data(data);
     }
 }
@@ -667,3 +667,82 @@ void color_gray(char *source_path){
     free_image_data(data);
 }
 
+
+
+void color_invert(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    unsigned char old_R, old_G, old_B, new_R, new_G, new_B;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+            int i,j;
+            for(j=0; j<height; j++){
+                for(i=0; i<width; i++){
+
+                    pixelRGB *pixel = get_pixel(data, width, height, 
+                    channel_count, i, j );
+
+                    old_R = pixel->R;
+                    old_G = pixel->G;
+                    old_B = pixel->B;
+
+                    new_R = 255 - old_R;
+                    new_G = 255 - old_G;
+                    new_B = 255 - old_B;
+
+                    pixel->R = new_R;
+                    pixel->G = new_G;
+                    pixel->B = new_B;
+                    
+                }
+            }
+        
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+        
+    free_image_data(data);
+}
+
+
+
+void color_gray_luminance(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    unsigned char value;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+            int i,j;
+            for(j=0; j<height; j++){
+                for(i=0; i<width; i++){
+
+                    pixelRGB *pixel = get_pixel(data, width, height, 
+                    channel_count, i, j );
+                    
+                    value = 0.21*pixel->R + 0.72*pixel->G + 0.07*pixel->B ;
+
+                    pixel->R = value;
+                    pixel->G = value;
+                    pixel->B = value;
+                    
+                }
+            }
+        
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+        
+    free_image_data(data);
+}
