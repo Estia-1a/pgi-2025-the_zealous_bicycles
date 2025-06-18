@@ -40,6 +40,8 @@ void color_gray_luminance(char *source_path);
 
 void mirror_horizontal(char *source_path);
 
+void mirror_vertical(char *source_path);
+
 
 #endif
 
