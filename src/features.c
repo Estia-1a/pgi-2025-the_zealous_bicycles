@@ -770,8 +770,8 @@ void rotate_cw(char *source_path){
                 channel_count, i, j );
 
                 if(pixel != NULL){
-                    new_x = j;
-                    new_y = width-1-i;
+                    new_x = height-1-j;
+                    new_y = i;
 
                     new_index = (new_y * new_width + new_x) * 3;
 

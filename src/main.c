@@ -132,6 +132,11 @@ else if ( strcmp( configuration.command, "rotate_cw") == 0 ) {
   rotate_cw(configuration.filenames[0]);
 }
 
+else if ( strcmp( configuration.command, "rotate_acw") == 0 ) {
+  /* rotate_acw() function is defined in feature.h and implemented in feature.c */
+  
+  rotate_acw(configuration.filenames[0]);
+}
 
 
   /*
