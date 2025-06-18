@@ -157,6 +157,14 @@ else if ( strncmp( configuration.command, "mirror_total", 12) == 0 ) {
   mirror_total(configuration.filenames[0]);
 }
 
+
+else if ( strncmp( configuration.command, "scale_nearest", 13) == 0 ) {
+  /* scale_nearest() function is defined in feature.h and implemented in feature.c */
+  float coeff;
+  sscanf(configuration.arguments[0], "%f", &coeff);
+  scale_nearest(configuration.filenames[0], coeff);
+}
+
   /*
    * TO COMPLETE
    */

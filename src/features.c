@@ -1,6 +1,6 @@
 #include <estia-image.h>
 #include <stdio.h>
-
+#include <stdlib.h>
 #include "features.h"
 #include "utils.h"
 
@@ -1019,3 +1019,67 @@ void mirror_total(char *source_path){
 
 
 }
+
+
+
+
+
+void scale_nearest(char *source_path, float coeff){
+    unsigned char* data;
+    unsigned char* nouvelle_memoire;
+    int width, height, channel_count, new_width, new_height;
+    int x_avant, y_avant;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+
+        new_width = (int)(width*coeff);
+        new_height = (int)(height*coeff);
+
+        nouvelle_memoire = (unsigned char*)malloc(new_width*new_height*channel_count);
+
+
+        int i,j;
+        for(j=0; j<new_height; j++){
+            for(i=0; i<new_width; i++){
+
+                x_avant = (int)((float)i/coeff + 0.5);
+                y_avant = (int)((float)j/coeff + 0.5);
+
+                if(x_avant < 0){
+                    x_avant = 0;
+                }
+
+                if(x_avant > width-1){
+                    x_avant = width -1;
+                }
+
+                if(y_avant < 0){
+                    y_avant = 0;
+                }
+
+                if(y_avant > height-1){
+                    y_avant = height -1;
+                }
+
+                pixelRGB *pixel_avant = get_pixel(data, width, height, 
+                                        channel_count, x_avant, y_avant);
+                pixelRGB *pixel_apres = get_pixel(nouvelle_memoire, new_width, new_height, 
+                                        channel_count, i, j);
+                
+                                        pixel_apres->R = pixel_avant->R;
+                                        pixel_apres->G = pixel_avant->G;
+                                        pixel_apres->B = pixel_avant->B;
+
+            }
+        }
+    }
+     if (write_image_data("image_out.bmp", nouvelle_memoire, new_width, new_height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+       
+    free_image_data(data);
+    free(nouvelle_memoire);
+}
+

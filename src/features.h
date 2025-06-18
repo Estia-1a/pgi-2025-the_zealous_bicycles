@@ -18,8 +18,6 @@ void max_pixel(char *source_path);
 
 void min_pixel(char *source_path);
 
-
-
 void max_component(char *source_path, char component);
 
 void min_component(char *source_path, char component);
@@ -47,6 +45,10 @@ void mirror_horizontal(char *source_path);
 void mirror_vertical(char *source_path);
 
 void mirror_total(char *source_path);
+
+
+
+void scale_nearest(char *source_path, float coeff);
 
 
 #endif
