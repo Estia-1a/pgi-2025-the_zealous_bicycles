@@ -282,7 +282,7 @@ void min_component(char *source_path, char component){
     }
 }
 
-void stat_report(char *source_path, char component) {
+void stat_report(char *source_path) {
 
     unsigned char*data;
     int width, height, channel_count;

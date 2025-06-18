@@ -84,10 +84,8 @@ else if ( strncmp( configuration.command, "min_component", 13 ) == 0 ) {
   min_component(configuration.filenames[0], component);
 }
 else if ( strncmp( configuration.command, "stat_report", 11 ) == 0 ) {
-  /* stat_report() function is defined in feature.h and implemented in feature.c */
-  char component;
-  sscanf(configuration.arguments[0], "%s", &component);
-  stat_report(configuration.filenames[0], component);
+  /* min_component() function is defined in feature.h and implemented in feature.c */
+  stat_report(configuration.filenames[0]);
 }
 
 else if ( strncmp( configuration.command, "color_red", 9 ) == 0 ) {
