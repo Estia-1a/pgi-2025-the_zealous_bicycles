@@ -746,3 +746,93 @@ void color_gray_luminance(char *source_path){
         
     free_image_data(data);
 }
+
+void rotate_cw(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    unsigned char value;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+        int i,j;
+        int new_x, new_y, new_index ;
+        int new_width = height;
+        int new_height = width;
+    
+        unsigned char* rotated_data = malloc(new_width * new_height * 3);
+        for(j=0; j<height; j++){
+            for(i=0; i<width; i++){
+
+                pixelRGB *pixel = get_pixel(data, width, height, 
+                channel_count, i, j );
+
+                if(pixel != NULL){
+                    new_x = j;
+                    new_y = width-1-i;
+
+                    new_index = (new_y * new_width + new_x) * 3;
+
+                    rotated_data[new_index] = pixel->R;
+                    rotated_data[new_index + 1] = pixel->G;
+                    rotated_data[new_index + 2] = pixel->B;
+                }
+                
+            }
+        }
+        if (write_image_data("image_out.bmp", rotated_data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+        free(rotated_data);
+        
+    }
+    
+    free_image_data(data);
+}
+
+void rotate_acw(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    unsigned char value;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+        int i,j;
+        int new_x, new_y, new_index ;
+        int new_width = height;
+        int new_height = width;
+    
+        unsigned char* rotated_data = malloc(new_width * new_height * 3);
+        for(j=0; j<height; j++){
+            for(i=0; i<width; i++){
+
+                pixelRGB *pixel = get_pixel(data, width, height, 
+                channel_count, i, j );
+
+                if(pixel != NULL){
+                    new_x = j;
+                    new_y = width-1-i;
+
+                    new_index = (new_y * new_width + new_x) * 3;
+
+                    rotated_data[new_index] = pixel->R;
+                    rotated_data[new_index + 1] = pixel->G;
+                    rotated_data[new_index + 2] = pixel->B;
+                }
+                
+            }
+        }
+        if (write_image_data("image_out.bmp", rotated_data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+        free(rotated_data);
+        
+    }
+    
+    free_image_data(data);
+}
