@@ -136,18 +136,6 @@ else if ( strcmp( configuration.command, "rotate_acw") == 0 ) {
   rotate_acw(configuration.filenames[0]);
 }
 
-else if ( strcmp( configuration.command, "scale_crop") == 0 ) {
-  /* scale_crop() function is defined in feature.h and implemented in feature.c */
-  int center_x, center_y, crop_width, crop_height;
-  sscanf(configuration.arguments[0], "%d", &center_x);
-  sscanf(configuration.arguments[1], "%d", &center_y);
-  sscanf(configuration.arguments[2], "%d", &crop_width);
-  sscanf(configuration.arguments[3], "%d", &crop_height);
-  scale_crop(configuration.filenames[0], center_x, center_y, crop_width, crop_height);
-}
-
-
-
 
 else if ( strncmp( configuration.command, "mirror_horizontal", 17) == 0 ) {
   /* mirror_horizontal() function is defined in feature.h and implemented in feature.c */
@@ -165,6 +153,16 @@ else if ( strncmp( configuration.command, "mirror_total", 12) == 0 ) {
   /* mirror_total() function is defined in feature.h and implemented in feature.c */
  
   mirror_total(configuration.filenames[0]);
+}
+
+else if ( strncmp( configuration.command, "scale_crop", 10) == 0 ) {
+  /* scale_crop() function is defined in feature.h and implemented in feature.c */
+  int center_x, center_y,  crop_width, crop_height;
+  sscanf(configuration.arguments[0], "%d", &center_x);
+  sscanf(configuration.arguments[1], "%d", &center_y);
+  sscanf(configuration.arguments[2], "%d", &crop_width);
+  sscanf(configuration.arguments[3], "%d", &crop_height);
+  scale_crop(configuration.filenames[0], center_x, center_y, crop_width, crop_height);
 }
 
 
