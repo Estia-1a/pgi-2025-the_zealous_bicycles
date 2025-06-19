@@ -1,0 +1,4 @@
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/main.c: In function ‘main’:
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/main.c:146:3: warning: implicit declaration of function ‘scale_crop’ [-Wimplicit-function-declaration]
+  146 |   scale_crop(configuration.filenames[0], center_x, center_y, crop_width, crop_height);
+      |   ^~~~~~~~~~
