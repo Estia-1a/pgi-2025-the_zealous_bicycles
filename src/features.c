@@ -748,21 +748,23 @@ void color_gray_luminance(char *source_path){
     free_image_data(data);
 }
 
+
+
 void rotate_cw(char *source_path){
 
     unsigned char* data;
-    int width, height, channel_count;
+    unsigned char* memoire_pivot;
+    int width, height, channel_count, new_x, new_y, nouvelle_position;
 
     if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
         printf("Erreur avec le fichier : %s\n", source_path);
     }
     else{
         int i,j;
-        int new_x, new_y, new_index ;
         int new_width = height;
         int new_height = width;
     
-        unsigned char* rotated_data = malloc(new_width * new_height * 3);
+        memoire_pivot = malloc(new_width * new_height * channel_count);
         for(j=0; j<height; j++){
             for(i=0; i<width; i++){
 
@@ -773,29 +775,33 @@ void rotate_cw(char *source_path){
                     new_x = height-1-j;
                     new_y = i;
 
-                    new_index = (new_y * new_width + new_x) * 3;
+                    nouvelle_position = (new_y * new_width + new_x) * channel_count;
 
-                    rotated_data[new_index] = pixel->R;
-                    rotated_data[new_index + 1] = pixel->G;
-                    rotated_data[new_index + 2] = pixel->B;
+                    memoire_pivot[nouvelle_position] = pixel->R;
+                    memoire_pivot[nouvelle_position + 1] = pixel->G;
+                    memoire_pivot[nouvelle_position + 2] = pixel->B;
                 }
                 
             }
         }
-        if (write_image_data("image_out.bmp", rotated_data, new_width, new_height) == 0) {
+        if (write_image_data("image_out.bmp", memoire_pivot, new_width, new_height) == 0) {
             printf("Erreur 2 avec le fichier : %s\n", source_path);
         }
-        free(rotated_data);
+        free(memoire_pivot);
+
         
     }
     
     free_image_data(data);
 }
 
+
+
 void rotate_acw(char *source_path){
 
     unsigned char* data;
-    int width, height, channel_count;
+    unsigned char* memoire_pivot;
+    int width, height, channel_count, new_x, new_y, nouvelle_position;
 
 
     if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
@@ -803,11 +809,10 @@ void rotate_acw(char *source_path){
     }
     else{
         int i,j;
-        int new_x, new_y, new_index ;
         int new_width = height;
         int new_height = width;
     
-        unsigned char* rotated_data = malloc(new_width * new_height * 3);
+        memoire_pivot = malloc(new_width * new_height * channel_count);
         for(j=0; j<height; j++){
             for(i=0; i<width; i++){
 
@@ -818,24 +823,27 @@ void rotate_acw(char *source_path){
                     new_x = j;
                     new_y = width-1-i;
 
-                    new_index = (new_y * new_width + new_x) * 3;
+                    nouvelle_position = (new_y * new_width + new_x) * channel_count;
 
-                    rotated_data[new_index] = pixel->R;
-                    rotated_data[new_index + 1] = pixel->G;
-                    rotated_data[new_index + 2] = pixel->B;
+                    memoire_pivot[nouvelle_position] = pixel->R;
+                    memoire_pivot[nouvelle_position + 1] = pixel->G;
+                    memoire_pivot[nouvelle_position + 2] = pixel->B;
                 }
                 
             }
         }
-        if (write_image_data("image_out.bmp", rotated_data, new_width, new_height) == 0) {
+        if (write_image_data("image_out.bmp", memoire_pivot, new_width, new_height) == 0) {
             printf("Erreur 2 avec le fichier : %s\n", source_path);
         }
-        free(rotated_data);
+        free(memoire_pivot);
         
     }
     
     free_image_data(data);
 }
+
+
+
 
 void mirror_horizontal(char *source_path){
 
@@ -926,6 +934,12 @@ void mirror_vertical(char *source_path){
                 }
             }
         }
+
+        if (write_image_data("image_out.bmp", data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+       
+    free_image_data(data);
 }
 
 void mirror_total(char *source_path){
@@ -1121,6 +1135,9 @@ void scale_crop(char *source_path, int center_x, int center_y, int crop_width, i
     free_image_data(data);
 }
 
+
+
+
 void color_desaturate(char *source_path){
 
     unsigned char* data;
@@ -1140,11 +1157,14 @@ void color_desaturate(char *source_path){
                 channel_count, i, j );
 
                 if(pixel !=NULL){
+
                     min_val=pixel->R;
+
                     if(pixel->G < min_val) min_val = pixel->G;
                     if(pixel->B < min_val) min_val = pixel->B;
 
                     min_val=pixel->R;
+                    
                     if(pixel->G > max_val) max_val = pixel->G;
                     if(pixel->B > max_val) max_val = pixel->B;
                     new_val = (max_val + min_val) / 2;
