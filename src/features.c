@@ -837,6 +837,235 @@ void rotate_acw(char *source_path){
     free_image_data(data);
 }
 
+void mirror_horizontal(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    int x,y, x_droite;
+    unsigned char R, G, B;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+
+            for(y=0; y<height; y++){
+                for(x=0; x<width/2; x++){
+
+                    pixelRGB *pixel_gauche = get_pixel(data, width, height,
+                    channel_count, x, y );
+
+                    R = pixel_gauche->R;
+                    G = pixel_gauche->G;
+                    B = pixel_gauche->B;
+                   
+                    x_droite = width - 1 - x;
+
+                    pixelRGB *pixel_droite = get_pixel(data, width, height,
+                    channel_count, x_droite, y );
+
+                    pixel_gauche->R = pixel_droite->R;
+                    pixel_gauche->G = pixel_droite->G;
+                    pixel_gauche->B = pixel_droite->B;
+
+                    pixel_droite->R = R;
+                    pixel_droite->G = G;
+                    pixel_droite->B = B;
+
+                                     
+                }
+            }
+       
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+       
+    free_image_data(data);
+
+
+}
+
+
+
+void mirror_vertical(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+    int x,y, y_haut;
+    unsigned char R, G, B;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+
+            for(y=0; y<height/2; y++){
+                for(x=0; x<width; x++){
+
+                    pixelRGB *pixel_haut = get_pixel(data, width, height,
+                    channel_count, x, y );
+
+                    R = pixel_haut->R;
+                    G = pixel_haut->G;
+                    B = pixel_haut->B;
+                   
+                    y_haut = height - 1 - y;
+
+                    pixelRGB *pixel_bas = get_pixel(data, width, height,
+                    channel_count, x, y_haut);
+
+                    pixel_haut->R = pixel_bas->R;
+                    pixel_haut->G = pixel_bas->G;
+                    pixel_haut->B = pixel_bas->B;
+
+                    pixel_bas->R = R;
+                    pixel_bas->G = G;
+                    pixel_bas->B = B;
+
+                                     
+                }
+            }
+        }
+}
+
+void mirror_total(char *source_path){
+
+   
+
+    unsigned char* data;
+    int width, height, channel_count;
+    int x,y, x_droite, y_bas;
+    unsigned char R1, G1, B1, R2, G2, B2;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+        
+            for(y=0; y<height; y++){
+                for(x=0; x<width/2; x++){
+
+                      pixelRGB *pixel_gauche = get_pixel(data, width, height,
+                    channel_count, x, y );
+
+                    R1 = pixel_gauche->R;
+                    G1 = pixel_gauche->G;
+                    B1 = pixel_gauche->B;
+                   
+                    x_droite = width - 1 - x;
+
+                    pixelRGB *pixel_droite = get_pixel(data, width, height,
+                    channel_count, x_droite, y );
+
+                    pixel_gauche->R = pixel_droite->R;
+                    pixel_gauche->G = pixel_droite->G;
+                    pixel_gauche->B = pixel_droite->B;
+
+                    pixel_droite->R = R1;
+                    pixel_droite->G = G1;
+                    pixel_droite->B = B1;
+                }
+            }
+
+            for(y=0; y<height/2; y++){
+                for(x=0; x<width; x++){
+
+                    pixelRGB *pixel_haut = get_pixel(data, width, height,
+                    channel_count, x, y );
+
+                    R2 = pixel_haut->R;
+                    G2 = pixel_haut->G;
+                    B2 = pixel_haut->B;
+                   
+                    y_bas = height - 1 - y;
+
+                    pixelRGB *pixel_bas = get_pixel(data, width, height,
+                    channel_count, x, y_bas);
+
+                    pixel_haut->R = pixel_bas->R;
+                    pixel_haut->G = pixel_bas->G;
+                    pixel_haut->B = pixel_bas->B;
+
+                    pixel_bas->R = R2;
+                    pixel_bas->G = G2;
+                    pixel_bas->B = B2;
+
+                                     
+                }
+            }
+       
+       
+   }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+       
+    free_image_data(data);
+
+
+}
+
+void scale_nearest(char *source_path, float coeff){
+    unsigned char* data;
+    unsigned char* nouvelle_memoire;
+    int width, height, channel_count, new_width, new_height;
+    int x_avant, y_avant;
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+
+        new_width = (int)(width*coeff);
+        new_height = (int)(height*coeff);
+
+        nouvelle_memoire = (unsigned char*)malloc(new_width*new_height*channel_count);
+
+
+        int i,j;
+        for(j=0; j<new_height; j++){
+            for(i=0; i<new_width; i++){
+
+                x_avant = (int)((float)i/coeff + 0.5);
+                y_avant = (int)((float)j/coeff + 0.5);
+
+                if(x_avant < 0){
+                    x_avant = 0;
+                }
+
+                if(x_avant > width-1){
+                    x_avant = width -1;
+                }
+
+                if(y_avant < 0){
+                    y_avant = 0;
+                }
+
+                if(y_avant > height-1){
+                    y_avant = height -1;
+                }
+
+                pixelRGB *pixel_avant = get_pixel(data, width, height, 
+                                        channel_count, x_avant, y_avant);
+                pixelRGB *pixel_apres = get_pixel(nouvelle_memoire, new_width, new_height, 
+                                        channel_count, i, j);
+                
+                                        pixel_apres->R = pixel_avant->R;
+                                        pixel_apres->G = pixel_avant->G;
+                                        pixel_apres->B = pixel_avant->B;
+
+            }
+        }
+    }
+     if (write_image_data("image_out.bmp", nouvelle_memoire, new_width, new_height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+       
+    free_image_data(data);
+    free(nouvelle_memoire);
+}
+
+
+
 void scale_crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height){
     unsigned char* data;
     int width, height, channel_count;
@@ -890,4 +1119,47 @@ void scale_crop(char *source_path, int center_x, int center_y, int crop_width, i
         free(cropped_data);
     }
     free_image_data(data);
+}
+
+void color_desaturate(char *source_path){
+
+    unsigned char* data;
+    int width, height, channel_count;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+        int i, j;
+        int min_val, max_val, new_val;
+
+        for(j=0; j<height; j++){
+            for(i=0; i<width; i++){
+
+                pixelRGB *pixel = get_pixel(data, width, height, 
+                channel_count, i, j );
+
+                if(pixel !=NULL){
+                    min_val=pixel->R;
+                    if(pixel->G < min_val) min_val = pixel->G;
+                    if(pixel->B < min_val) min_val = pixel->B;
+
+                    min_val=pixel->R;
+                    if(pixel->G > max_val) max_val = pixel->G;
+                    if(pixel->B > max_val) max_val = pixel->B;
+                    new_val = (max_val + min_val) / 2;
+
+                    pixel->R = new_val;
+                    pixel->G = new_val;
+                    pixel->B = new_val;
+                }
+
+            }
+        }
+    }
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+        printf("Erreur 2 avec le fichier : %s\n", source_path);
+    }
+    
+free_image_data(data);
 }
