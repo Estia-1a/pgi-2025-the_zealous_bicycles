@@ -46,7 +46,7 @@ void mirror_vertical(char *source_path);
 
 void mirror_total(char *source_path);
 
-
+void scale_crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height);
 
 void scale_nearest(char *source_path, float coeff);
 
