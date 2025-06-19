@@ -1,0 +1,15 @@
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/main.c: In function ‘main’:
+/home/runner/work/pgi-2025-the_zealous_bicycles/pgi-2025-the_zealous_bicycles/src/main.c:146:3: warning: implicit declaration of function ‘scale_crop’ [-Wimplicit-function-declaration]
+  146 |   scale_crop(configuration.filenames[0], center_x, center_y, crop_width, crop_height);
+      |   ^~~~~~~~~~
+/usr/bin/ld: CMakeFiles/freud.dir/src/main.c.o: in function `main':
+main.c:(.text.startup+0x372): undefined reference to `scale_nearest'
+/usr/bin/ld: main.c:(.text.startup+0x5ba): undefined reference to `mirror_vertical'
+/usr/bin/ld: main.c:(.text.startup+0x5c9): undefined reference to `mirror_horizontal'
+/usr/bin/ld: main.c:(.text.startup+0x5d8): undefined reference to `mirror_total'
+collect2: error: ld returned 1 exit status
+gmake[2]: *** [CMakeFiles/freud.dir/build.make:151: freud] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:87: CMakeFiles/freud.dir/all] Error 2
+gmake: *** [Makefile:136: all] Error 2
+
+The process '/usr/local/bin/cmake' failed with exit code 2
