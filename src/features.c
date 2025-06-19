@@ -1,5 +1,6 @@
 #include <estia-image.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "features.h"
 #include "utils.h"
@@ -751,7 +752,6 @@ void rotate_cw(char *source_path){
 
     unsigned char* data;
     int width, height, channel_count;
-    unsigned char value;
 
     if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
         printf("Erreur avec le fichier : %s\n", source_path);
@@ -782,7 +782,7 @@ void rotate_cw(char *source_path){
                 
             }
         }
-        if (write_image_data("image_out.bmp", rotated_data, width, height) == 0) {
+        if (write_image_data("image_out.bmp", rotated_data, new_width, new_height) == 0) {
             printf("Erreur 2 avec le fichier : %s\n", source_path);
         }
         free(rotated_data);
@@ -796,7 +796,7 @@ void rotate_acw(char *source_path){
 
     unsigned char* data;
     int width, height, channel_count;
-    unsigned char value;
+
 
     if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
         printf("Erreur avec le fichier : %s\n", source_path);
@@ -827,12 +827,67 @@ void rotate_acw(char *source_path){
                 
             }
         }
-        if (write_image_data("image_out.bmp", rotated_data, width, height) == 0) {
+        if (write_image_data("image_out.bmp", rotated_data, new_width, new_height) == 0) {
             printf("Erreur 2 avec le fichier : %s\n", source_path);
         }
         free(rotated_data);
         
     }
     
+    free_image_data(data);
+}
+
+void scale_crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height){
+    unsigned char* data;
+    int width, height, channel_count;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+        int i, j;
+        int base_x, base_y;
+        int src_x, src_y;
+        int crop_index;
+        unsigned char* cropped_data = malloc(crop_width * crop_height * 3);
+
+        base_x = center_x - crop_width /2;
+        base_y = center_y - crop_width /2;
+
+        for(j=0; j<height; j++){
+            for(i=0; i<width; i++){
+
+                pixelRGB *pixel = get_pixel(data, width, height, 
+                channel_count, i, j );
+
+                if(pixel != NULL){
+                    src_x = base_x + i;
+                    src_y = base_y + j;
+
+                    crop_index = (j* crop_width +i) * 3;
+
+                    if(src_x >=0 && src_x < width && src_y >=0 && src_y< height){
+                        if(pixel != NULL){
+                            cropped_data[crop_index] = pixel->R;
+                            cropped_data[crop_index + 1] = pixel->G;
+                            cropped_data[crop_index + 2] = pixel->B;
+                        }
+                        else{
+                            cropped_data[crop_index] = 0;
+                            cropped_data[crop_index + 1] = 0;
+                            cropped_data[crop_index + 2] = 0;
+                        }
+                    }
+
+                }
+                
+            }
+
+        }
+        if (write_image_data("image_out.bmp", cropped_data, width, height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+        free(cropped_data);
+    }
     free_image_data(data);
 }
