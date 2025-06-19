@@ -1020,6 +1020,8 @@ void mirror_total(char *source_path){
 }
 
 void scale_nearest(char *source_path, float coeff){
+
+
     unsigned char* data;
     unsigned char* nouvelle_memoire;
     int width, height, channel_count, new_width, new_height;
@@ -1032,7 +1034,7 @@ void scale_nearest(char *source_path, float coeff){
         new_width = (int)(width*coeff);
         new_height = (int)(height*coeff);
 
-        nouvelle_memoire = (unsigned char*)malloc(new_width*new_height*channel_count);
+        nouvelle_memoire = malloc(new_width*new_height*channel_count);
 
 
         int i,j;
@@ -1077,6 +1079,132 @@ void scale_nearest(char *source_path, float coeff){
     free_image_data(data);
     free(nouvelle_memoire);
 }
+
+
+
+
+
+
+
+void scale_bilinear(char *source_path, float coeff){
+
+
+    unsigned char* data;
+    unsigned char* nouvelle_memoire;
+    int width, height, channel_count, new_width, new_height;
+    float x_reel, y_reel, distance_x, distance_y, R, G, B;
+    int x_gauche, x_droite, y_haut, y_bas;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count) == 0) {
+        printf("Erreur avec le fichier : %s\n", source_path);
+    }
+    else{
+
+        new_width = (int)(width*coeff);
+        new_height = (int)(height*coeff);
+
+        nouvelle_memoire = malloc(new_width*new_height*channel_count);
+
+
+        int i,j;
+        for(j=0; j<new_height; j++){
+            for(i=0; i<new_width; i++){
+
+                x_reel = (float)i/coeff;
+                y_reel = (float)j/coeff;
+
+                x_gauche = (int)x_reel;
+                y_haut = (int)y_reel;
+                x_droite = x_gauche + 1;
+                y_bas = y_haut + 1;
+
+                 if(x_gauche < 0){
+                    x_gauche = 0;
+                }
+
+                if(x_droite > width-1){
+                    x_droite = width -1;
+                }
+
+                if(y_haut < 0){
+                    y_haut = 0;
+                }
+
+                if(y_bas > height-1){
+                    y_bas = height -1;
+                }
+
+
+                distance_x = x_reel - x_gauche;
+                distance_y = y_reel - y_haut;
+
+                /*D'après Internet la formule de l'interpolation bilinéaire nécessite les distances
+                 et les 4 pixels autour de celui qu'on cherche   */
+
+                 pixelRGB *pixel_haut_gauche = get_pixel(data, width, height, channel_count,
+                                                x_gauche, y_haut);
+                 pixelRGB *pixel_haut_droite = get_pixel(data, width, height, channel_count,
+                                                x_droite, y_haut);
+                 pixelRGB *pixel_bas_gauche = get_pixel(data, width, height, channel_count,
+                                                x_gauche, y_bas);
+                 pixelRGB *pixel_bas_droite = get_pixel(data, width, height, channel_count,
+                                                x_droite, y_bas);
+
+                
+                R = (1 - distance_x) * (1 - distance_y) * pixel_haut_gauche->R
+
+                + distance_x * (1 - distance_y) * pixel_haut_droite->R
+
+                + distance_x * distance_y * pixel_bas_droite->R
+
+                + (1 - distance_x) * distance_y * pixel_bas_gauche->R;
+
+
+
+
+                  G = (1 - distance_x) * (1 - distance_y) * pixel_haut_gauche->G
+
+                + distance_x * (1 - distance_y) * pixel_haut_droite->G
+
+                + distance_x * distance_y * pixel_bas_droite->G
+                
+                + (1 - distance_x) * distance_y * pixel_bas_gauche->G;
+
+
+
+
+                  B = (1 - distance_x) * (1 - distance_y) * pixel_haut_gauche->B
+
+                + distance_x * (1 - distance_y) * pixel_haut_droite->B
+
+                + distance_x * distance_y * pixel_bas_droite->B
+                
+                + (1 - distance_x) * distance_y * pixel_bas_gauche->B;
+
+
+
+                pixelRGB *pixel_apres = get_pixel(nouvelle_memoire, new_width, new_height,
+                                                channel_count, i, j);
+
+                                                pixel_apres->R = (unsigned char)(R + 0.5);
+                                                pixel_apres->G = (unsigned char)(G + 0.5);
+                                                pixel_apres->B = (unsigned char)(B + 0.5);
+            }
+        }
+    }
+     if (write_image_data("image_out.bmp", nouvelle_memoire, new_width, new_height) == 0) {
+            printf("Erreur 2 avec le fichier : %s\n", source_path);
+        }
+       
+    free_image_data(data);
+    free(nouvelle_memoire);
+}
+
+
+
+
+
+
 
 
 
