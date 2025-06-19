@@ -175,6 +175,12 @@ else if ( strncmp( configuration.command, "scale_nearest", 13) == 0 ) {
   scale_nearest(configuration.filenames[0], coeff);
 }
 
+else if ( strcmp( configuration.command, "color_desaturate") == 0 ) {
+  /* color_gray_luminance() function is defined in feature.h and implemented in feature.c */
+  
+  color_desaturate(configuration.filenames[0]);
+}
+
   /*
    * TO COMPLETE
    */
