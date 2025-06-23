@@ -1330,3 +1330,7 @@ void color_desaturate(char *source_path){
     
 free_image_data(data);
 }
+
+
+
+/*Fin des features*/
